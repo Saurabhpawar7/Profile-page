@@ -1,14 +1,8 @@
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = `${Math.min(i * 55, 280)}ms`; observer.observe(el); });
-
-document.querySelectorAll('[data-tilt]').forEach(card => {
-  card.addEventListener('pointermove', e => {
-    const rect = card.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - .5;
-    const y = (e.clientY - rect.top) / rect.height - .5;
-    card.style.transform = `perspective(800px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg) translateY(-4px)`;
-  });
-  card.addEventListener('pointerleave', () => card.style.transform = '');
-});
+import { db, firebaseReady } from './firebase-config.js';
+import { collection, getDocs, orderBy, query } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+const defaults=[{name:'Java',description:'My core language for creating reliable, object-oriented applications.',category:'BACKEND CORE',icon:'☕',color:'java'},{name:'Spring Boot',description:'Building powerful REST APIs and production-ready backend services.',category:'FRAMEWORK',icon:'⌁',color:'spring'},{name:'MySQL',description:'Designing structured data layers that make applications dependable.',category:'DATA LAYER',icon:'▣',color:'database'},{name:'Web Craft',description:'HTML, CSS and JavaScript for interfaces people genuinely enjoy using.',category:'FRONTEND',icon:'</>',color:'web'},{name:'Git & GitHub',description:'Versioning progress, collaborating openly and shipping with confidence.',category:'WORKFLOW',icon:'✦',color:'tools'},{name:'Always Next',description:'Learning never stops. The best part of this stack is what comes after.',category:'IN PROGRESS',icon:'+',color:'next'}];
+const esc=v=>String(v).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[c]));
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+function tilt(card){card.addEventListener('pointermove',e=>{const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;card.style.transform=`perspective(800px) rotateX(${-y*5}deg) rotateY(${x*5}deg) translateY(-4px)`});card.addEventListener('pointerleave',()=>card.style.transform='')}
+function render(skills){document.querySelector('#skillsGrid').innerHTML=skills.map((s,i)=>`<article class="skill-card card-${esc(s.color||'next')} reveal" data-tilt><div class="card-glow"></div><div class="skill-top"><span class="skill-index">${String(i+1).padStart(2,'0')}</span><span class="skill-icon ${esc(s.color||'next')}">${esc(s.icon||'+')}</span></div><h3>${esc(s.name)}</h3><p>${esc(s.description)}</p><div class="skill-foot"><span>${esc(s.category||'SKILL')}</span><b>↗</b></div></article>`).join('');document.querySelectorAll('.reveal').forEach((e,i)=>{e.style.transitionDelay=`${Math.min(i*55,280)}ms`;observer.observe(e)});document.querySelectorAll('[data-tilt]').forEach(tilt)}
+try{if(!firebaseReady)throw Error();const snap=await getDocs(query(collection(db,'skills'),orderBy('order')));render(snap.empty?defaults:snap.docs.map(d=>d.data()))}catch{render(defaults)}
