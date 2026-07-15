@@ -220,8 +220,6 @@ em{
   margin:26px auto;
 }
 
-
-
 /* Reduced gap above “Scroll to explore” */
 .scroll-cue{
   margin-top:24px;
@@ -351,6 +349,7 @@ em{
 }
 
 .java{color:#ffad91}
+.skill-icon img{width:27px;height:27px;object-fit:contain;display:block}
 .spring{color:#a9ef9d}
 .database{color:#82d8ff}
 .web{

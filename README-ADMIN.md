@@ -15,4 +15,10 @@ service cloud.firestore { match /databases/{database}/documents { match /skills/
 
 6. Push all changed and new files to the GitHub repository hosting the site.
 
+## Adding skill logos without Firebase Storage
+
+1. In the GitHub repository, create a folder named `logos` if it does not exist.
+2. Upload your image files there, for example `github.png` and `html.png`.
+3. In the admin dashboard, add or edit the skill and enter its path in **Logo file path**, for example `logos/github.png`.
+
 Open `https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/admin.html`, sign in, and manage your skills.
