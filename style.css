@@ -336,8 +336,8 @@ em{
 }
 
 .skill-icon{
-  width:90px;
-  height:90px;
+  width:200px;
+  height:200px;
   border-radius:15px;
   display:grid;
   place-items:center;
