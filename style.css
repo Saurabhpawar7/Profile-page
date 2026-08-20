@@ -349,7 +349,7 @@ em{
 }
 
 .java{color:#ffad91}
-.skill-icon img{width:27px;height:27px;object-fit:contain;display:block}
+.skill-icon img{width:100px;height:100px;object-fit:contain;display:block}
 .spring{color:#a9ef9d}
 .database{color:#82d8ff}
 .web{
